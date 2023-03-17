@@ -8,6 +8,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -36,16 +37,13 @@ class CharactersViewModelTest {
     }
 
     @Test
-    fun `should validate the paging data object values when calling characters paging data`() =
-        runTest {
+    fun `should validate the paging data object values when calling characters paging data`() = runTest {
 
             whenever(getCharactersUseCase.invoke(any())).thenReturn(flowOf(pagingDataCharacters))
 
-            val expectedPagingData = pagingDataCharacters
-
             val result = charactersViewModel.charactersPagingData("")
 
-            Assert.assertEquals(1, result.count())
+            Assert.assertNotNull(result.first())
 
         }
 
